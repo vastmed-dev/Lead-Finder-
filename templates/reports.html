@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="topbar"><div><h1 class="page-title">Reports & Exports</h1><p class="text-muted mb-0">Download clean lead lists, campaign summaries, and printable HTML reports.</p></div></div>
+<div class="stats-grid mb-4">
+  <div class="stat-card"><span>Total Leads</span><strong id="statTotal">0</strong><i class="bi bi-people"></i></div>
+  <div class="stat-card hot"><span>Hot Leads</span><strong id="statHotLeads">0</strong><i class="bi bi-fire"></i></div>
+  <div class="stat-card"><span>Bad Websites</span><strong id="statBadWebsites">0</strong><i class="bi bi-wrench"></i></div>
+  <div class="stat-card"><span>Conversion</span><strong id="statConversionRate">0%</strong><i class="bi bi-graph-up"></i></div>
+</div>
+<div class="row g-4">
+  <div class="col-lg-6"><div class="card modern-card"><div class="card-body p-4"><h4>Exports</h4><p class="text-muted">Full lead export includes WhatsApp link, website audit, social links, offer, campaign, and suggested message.</p><div class="d-grid gap-2"><a class="btn btn-success" href="/export/excel"><i class="bi bi-file-earmark-excel"></i> Download Excel</a><a class="btn btn-outline-secondary" href="/export/csv"><i class="bi bi-filetype-csv"></i> Download CSV</a><a class="btn btn-outline-primary" href="/export/html-report"><i class="bi bi-printer"></i> Download Printable HTML Report</a></div></div></div></div>
+  <div class="col-lg-6"><div class="card modern-card"><div class="card-body p-4"><h4>Offer Breakdown</h4><div id="offerChart" class="bar-chart"></div></div></div></div>
+</div>
+{% endblock %}
+{% block scripts %}<script>initReportsPage();</script>{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="topbar"><div><h1 class="page-title">Campaigns</h1><p class="text-muted mb-0">Group leads by city, service offer, or client campaign.</p></div></div>
+<div class="row g-4">
+  <div class="col-lg-4"><div class="card modern-card"><div class="card-body p-4"><h4>Create Campaign</h4><form id="campaignForm" class="row g-3"><div class="col-12"><label class="form-label">Name</label><input name="name" class="form-control" placeholder="Dental Clinics Lahore" required></div><div class="col-6"><label class="form-label">Category</label><input name="category" class="form-control"></div><div class="col-6"><label class="form-label">City</label><input name="city" class="form-control"></div><div class="col-12"><label class="form-label">Description</label><textarea name="description" rows="4" class="form-control"></textarea></div><div class="col-12"><button class="btn btn-primary w-100">Create</button></div></form></div></div></div>
+  <div class="col-lg-8"><div class="card modern-card"><div class="card-body p-0"><div class="table-responsive"><table class="table leads-table mb-0"><thead><tr><th>Campaign</th><th>Leads</th><th>Contacted</th><th>Interested</th><th>Converted</th><th>Action</th></tr></thead><tbody id="campaignsBody"></tbody></table></div></div></div></div>
+</div>
+{% endblock %}
+{% block scripts %}<script>initCampaignsPage();</script>{% endblock %}

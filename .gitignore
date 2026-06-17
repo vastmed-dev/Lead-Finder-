@@ -1,0 +1,10 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+exports/*.xlsx
+exports/*.csv
+exports/*.html
+exports/*.txt
+*.log

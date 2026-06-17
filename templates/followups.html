@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="topbar"><div><h1 class="page-title">Today’s Follow-ups</h1><p class="text-muted mb-0">All leads with due or overdue follow-up dates.</p></div><a href="/leads" class="btn btn-outline-primary">All Leads</a></div>
+<div class="card modern-card"><div class="card-body p-0"><div class="table-responsive"><table class="table leads-table mb-0"><thead><tr><th>Lead</th><th>Contact</th><th>Next Follow-up</th><th>Status</th><th>Action</th></tr></thead><tbody id="followupsBody"></tbody></table></div></div></div>
+{% endblock %}
+{% block scripts %}<script>initFollowupsPage();</script>{% endblock %}

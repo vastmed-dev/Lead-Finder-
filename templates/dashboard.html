@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1 class="page-title">Dashboard</h1>
+    <p class="text-muted mb-0">Find local businesses, score leads, audit websites, and manage sales follow-ups.</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a href="/leads?hot=1" class="btn btn-outline-primary"><i class="bi bi-fire"></i> Hot Leads</a>
+    <a href="/reports" class="btn btn-primary"><i class="bi bi-download"></i> Export Report</a>
+  </div>
+</div>
+
+<div class="stats-grid mb-4">
+  <div class="stat-card"><span>Total Leads</span><strong id="statTotal">0</strong><i class="bi bi-people"></i></div>
+  <div class="stat-card hot"><span>Hot Leads</span><strong id="statHotLeads">0</strong><i class="bi bi-fire"></i></div>
+  <div class="stat-card"><span>No Website</span><strong id="statNoWebsite">0</strong><i class="bi bi-globe2"></i></div>
+  <div class="stat-card"><span>Due Follow-ups</span><strong id="statFollowUp">0</strong><i class="bi bi-calendar-check"></i></div>
+  <div class="stat-card"><span>Bad Websites</span><strong id="statBadWebsites">0</strong><i class="bi bi-wrench-adjustable"></i></div>
+  <div class="stat-card"><span>Email Found</span><strong id="statWithEmail">0</strong><i class="bi bi-envelope"></i></div>
+  <div class="stat-card"><span>No Social</span><strong id="statNoSocial">0</strong><i class="bi bi-share"></i></div>
+  <div class="stat-card"><span>Conversion</span><strong id="statConversionRate">0%</strong><i class="bi bi-graph-up-arrow"></i></div>
+</div>
+
+<div class="row g-4">
+  <div class="col-xl-7">
+    <div class="card modern-card mb-4">
+      <div class="card-body p-4">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="round-badge"><i class="bi bi-search"></i></div>
+          <div><h4 class="mb-0">Search New Leads</h4><small class="text-muted">Business type + city se Google Maps leads collect karein.</small></div>
+        </div>
+        <form id="scrapeForm" class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Business Type</label>
+            <input id="businessTypeInput" name="business_type" class="form-control" placeholder="Dental Clinics" required>
+            <div class="preset-list mt-2" id="categoryPresets"></div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">City</label>
+            <input id="cityInput" name="city" class="form-control" placeholder="Lahore" required>
+            <div class="preset-list mt-2" id="cityPresets"></div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Max Results</label>
+            <input name="max_results" type="number" value="30" min="1" max="200" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Campaign</label>
+            <select name="campaign_id" id="searchCampaign" class="form-select"></select>
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <div class="form-check"><input class="form-check-input" type="checkbox" name="auto_audit" id="autoAudit"><label class="form-check-label" for="autoAudit">Auto website audit when website exists</label></div>
+          </div>
+          <div class="col-md-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="only_no_website" checked id="onlyNoWebsite"><label class="form-check-label" for="onlyNoWebsite">Only No Website leads</label></div></div>
+          <div class="col-md-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="only_with_phone" checked id="onlyWithPhone"><label class="form-check-label" for="onlyWithPhone">Only Phone Available leads</label></div></div>
+          <div class="col-12"><button class="btn btn-primary btn-lg"><i class="bi bi-play-fill"></i> Start Search</button></div>
+        </form>
+      </div>
+    </div>
+
+    <div class="card modern-card">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-2"><h4 class="mb-0">Search Progress</h4><span class="badge text-bg-secondary" id="jobStatusBadge">Idle</span></div>
+        <div class="progress progress-tall mb-3"><div class="progress-bar" id="jobProgressBar" style="width:0%">0%</div></div>
+        <div class="progress-log" id="progressLog"><div class="text-muted">Progress log will appear here.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-5">
+    <div class="card modern-card mb-4"><div class="card-body p-4"><h4>Status Pipeline</h4><div id="statusChart" class="bar-chart"></div></div></div>
+    <div class="card modern-card mb-4"><div class="card-body p-4"><h4>Website Status</h4><div id="websiteStatusChart" class="bar-chart"></div></div></div>
+    <div class="card modern-card"><div class="card-body p-4"><h4>Previous Searches</h4><div id="searchHistory" class="history-list"></div></div></div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script>initDashboard();</script>{% endblock %}

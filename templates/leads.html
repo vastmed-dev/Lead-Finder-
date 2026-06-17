@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1 class="page-title">All Leads</h1>
+    <p class="text-muted mb-0">Filter, audit, score, contact, and manage each lead.</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a id="exportExcel" class="btn btn-outline-success" href="/export/excel"><i class="bi bi-file-earmark-excel"></i> Excel</a>
+    <a id="exportCsv" class="btn btn-outline-secondary" href="/export/csv"><i class="bi bi-filetype-csv"></i> CSV</a>
+  </div>
+</div>
+
+<div class="card modern-card mb-4"><div class="card-body p-4">
+  <div class="row g-3" id="filtersBox">
+    <div class="col-lg-3"><label class="form-label">Search</label><input id="filterQ" class="form-control" placeholder="Business, phone, email..."></div>
+    <div class="col-lg-2"><label class="form-label">City</label><select id="filterCity" class="form-select"></select></div>
+    <div class="col-lg-2"><label class="form-label">Category</label><select id="filterCategory" class="form-select"></select></div>
+    <div class="col-lg-2"><label class="form-label">Status</label><select id="filterStatus" class="form-select"></select></div>
+    <div class="col-lg-2"><label class="form-label">Website</label><select id="filterWebsiteStatus" class="form-select"></select></div>
+    <div class="col-lg-1 d-flex align-items-end"><button id="applyFilters" class="btn btn-primary w-100">Go</button></div>
+    <div class="col-lg-2"><label class="form-label">Quality</label><select id="filterQuality" class="form-select"></select></div>
+    <div class="col-lg-2"><label class="form-label">Phone</label><select id="filterPhone" class="form-select"></select></div>
+    <div class="col-lg-2"><label class="form-label">Email</label><select id="filterEmail" class="form-select"></select></div>
+    <div class="col-lg-2"><label class="form-label">Offer</label><select id="filterOffer" class="form-select"></select></div>
+    <div class="col-lg-2"><label class="form-label">Campaign</label><select id="filterCampaign" class="form-select"></select></div>
+    <div class="col-lg-2 d-flex align-items-end gap-2"><button class="btn btn-outline-danger flex-fill" id="hotOnly">Hot</button><button class="btn btn-outline-secondary flex-fill" id="resetFilters">Reset</button></div>
+  </div>
+</div></div>
+
+<div class="card modern-card"><div class="card-body p-0">
+  <div class="table-responsive">
+    <table class="table leads-table mb-0">
+      <thead><tr><th>Lead</th><th>Contact</th><th>Website Audit</th><th>Score</th><th>CRM</th><th>Actions</th></tr></thead>
+      <tbody id="leadsTableBody"></tbody>
+    </table>
+  </div>
+  <div class="p-3 d-flex justify-content-between align-items-center border-top">
+    <span class="text-muted" id="leadCountText">0 leads</span>
+    <div class="btn-group"><button class="btn btn-outline-secondary btn-sm" id="prevPage">Previous</button><button class="btn btn-outline-secondary btn-sm disabled" id="pageInfo">Page 1</button><button class="btn btn-outline-secondary btn-sm" id="nextPage">Next</button></div>
+  </div>
+</div></div>
+
+<div class="modal fade" id="leadModal" tabindex="-1"><div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content">
+  <div class="modal-header"><div><h5 class="modal-title" id="modalLeadTitle">Lead Detail</h5><small class="text-muted" id="modalLeadSubtitle"></small></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body">
+    <input type="hidden" id="modalLeadId">
+    <div class="row g-3 mb-3 lead-detail-grid">
+      <div class="col-md-3"><strong>Phone:</strong> <span id="modalPhone"></span></div>
+      <div class="col-md-3"><strong>Email:</strong> <span id="modalEmail"></span></div>
+      <div class="col-md-3"><strong>Score:</strong> <span id="modalScore"></span></div>
+      <div class="col-md-3"><strong>Offer:</strong> <span id="modalOfferView"></span></div>
+      <div class="col-md-6"><strong>Website:</strong> <span id="modalWebsite"></span></div>
+      <div class="col-md-6"><strong>Google Maps:</strong> <span id="modalMap"></span></div>
+      <div class="col-12"><strong>Address:</strong> <span id="modalAddress"></span></div>
+      <div class="col-12"><strong>Website Issues:</strong> <span id="modalIssues"></span></div>
+      <div class="col-12"><strong>Domain Suggestions:</strong> <span id="modalDomains"></span></div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-3"><label class="form-label">Status</label><select id="modalStatus" class="form-select"></select></div>
+      <div class="col-md-3"><label class="form-label">Contact Method</label><select id="modalContactMethod" class="form-select"></select></div>
+      <div class="col-md-3"><label class="form-label">Priority</label><select id="modalPriority" class="form-select"></select></div>
+      <div class="col-md-3"><label class="form-label">Campaign</label><select id="modalCampaign" class="form-select"></select></div>
+      <div class="col-md-3"><label class="form-label">Assigned To</label><input type="text" id="modalAssignedTo" class="form-control"></div>
+      <div class="col-md-3"><label class="form-label">Last Contacted</label><input type="datetime-local" id="modalLastContacted" class="form-control"></div>
+      <div class="col-md-3"><label class="form-label">Next Follow-up</label><input type="datetime-local" id="modalNextFollowUp" class="form-control"></div>
+      <div class="col-md-3"><label class="form-label">Suggested Offer</label><select id="modalOffer" class="form-select"></select></div>
+      <div class="col-md-6"><label class="form-label">Email</label><input type="email" id="modalEmailInput" class="form-control"></div>
+      <div class="col-md-6"><label class="form-label">Website</label><input type="url" id="modalWebsiteInput" class="form-control"></div>
+      <div class="col-12"><label class="form-label">Notes</label><textarea id="modalNotes" class="form-control" rows="3"></textarea></div>
+    </div>
+    <div class="row g-3 mt-2">
+      <div class="col-lg-6"><div class="alert alert-light border h-100">
+        <div class="d-flex justify-content-between align-items-center mb-2"><strong>Personalized WhatsApp Message</strong><span class="small text-muted">Manual outreach</span></div>
+        <p class="mb-2" id="whatsappPreview"></p><a href="#" target="_blank" id="whatsappLink" class="btn btn-success btn-sm"><i class="bi bi-whatsapp"></i> Open WhatsApp</a>
+      </div></div>
+      <div class="col-lg-6"><div class="alert alert-light border h-100">
+        <div class="d-flex justify-content-between align-items-center mb-2"><strong>Activity Timeline</strong><button class="btn btn-sm btn-outline-primary" id="addActivityBtn">Add Note</button></div>
+        <textarea id="activityNote" class="form-control mb-2" rows="2" placeholder="Add call/message/follow-up note..."></textarea>
+        <div id="activityTimeline" class="timeline-box"></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="modal-footer"><button type="button" class="btn btn-outline-primary" id="auditLeadBtn"><i class="bi bi-globe2"></i> Run Website Audit</button><a href="#" class="btn btn-outline-secondary" id="proposalBtn"><i class="bi bi-file-earmark-text"></i> Download Proposal</a><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button><button type="button" class="btn btn-primary" id="saveLeadBtn">Save Changes</button></div>
+</div></div></div>
+{% endblock %}
+{% block scripts %}<script>initLeadsPage();</script>{% endblock %}
